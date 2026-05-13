@@ -1,11 +1,13 @@
+import Link from 'next/link'
+
 export default function Header() {
   return (
     <header className="sticky top-0 z-10 bg-white border-b border-gray-200">
       <div className="max-w-2xl mx-auto px-4 h-14 flex items-center justify-between gap-3">
-        <a href="/" className="flex items-center gap-1.5 flex-shrink-0">
+        <Link href="/" className="flex items-center gap-1.5 flex-shrink-0">
           <span className="text-xl">🍠</span>
           <span className="font-bold text-orange-500 text-lg tracking-tight">고구마마켓</span>
-        </a>
+        </Link>
 
         <div className="flex-1 max-w-xs">
           <div className="flex items-center gap-2 bg-gray-100 rounded-full px-3 py-2">
@@ -16,9 +18,12 @@ export default function Header() {
           </div>
         </div>
 
-        <button className="flex-shrink-0 bg-orange-500 hover:bg-orange-600 active:bg-orange-700 text-white text-sm font-semibold px-4 py-2 rounded-full transition-colors">
+        <Link
+          href="/products/new"
+          className="flex-shrink-0 bg-orange-500 hover:bg-orange-600 active:bg-orange-700 text-white text-sm font-semibold px-4 py-2 rounded-full transition-colors"
+        >
           글쓰기
-        </button>
+        </Link>
       </div>
     </header>
   )
