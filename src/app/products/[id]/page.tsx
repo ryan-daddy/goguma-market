@@ -2,6 +2,7 @@ import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import { createClient } from '@/lib/supabase/server'
 import { Product } from '@/types/product'
+import DeleteButton from '@/components/DeleteButton'
 
 const STATUS_STYLE: Record<Product['status'], string> = {
   '판매중': 'bg-orange-100 text-orange-600',
@@ -49,12 +50,15 @@ export default async function ProductDetailPage({
             </svg>
           </Link>
           <span className="font-semibold text-gray-900 flex-1">상품 정보</span>
-          <Link
-            href={`/products/${product.id}/edit`}
-            className="text-sm text-orange-500 font-semibold hover:text-orange-600 transition-colors"
-          >
-            수정
-          </Link>
+          <div className="flex items-center gap-3">
+            <Link
+              href={`/products/${product.id}/edit`}
+              className="text-sm text-orange-500 font-semibold hover:text-orange-600 transition-colors"
+            >
+              수정
+            </Link>
+            <DeleteButton productId={product.id} />
+          </div>
         </div>
       </header>
 
