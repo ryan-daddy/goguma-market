@@ -1,9 +1,9 @@
 import { Product } from '@/types/product'
 
-const STATUS_STYLE: Record<Product['status'], string> = {
-  '판매중': 'bg-orange-100 text-orange-600',
-  '예약중': 'bg-yellow-100 text-yellow-600',
-  '판매완료': 'bg-gray-100 text-gray-500',
+const STATUS_BADGE: Record<Product['status'], { label: string; className: string } | null> = {
+  '판매중': null,
+  '예약중': { label: '예약중', className: 'bg-yellow-100 text-yellow-700' },
+  '판매완료': { label: '거래완료', className: 'bg-gray-100 text-gray-500' },
 }
 
 function timeAgo(dateStr: string) {
@@ -14,41 +14,49 @@ function timeAgo(dateStr: string) {
   const hours = Math.floor(minutes / 60)
   if (hours < 24) return `${hours}시간 전`
   const days = Math.floor(hours / 24)
-  return `${days}일 전`
+  if (days < 30) return `${days}일 전`
+  return `${Math.floor(days / 30)}달 전`
 }
 
 export default function ProductCard({ product }: { product: Product }) {
+  const badge = STATUS_BADGE[product.status]
+  const isSold = product.status === '판매완료'
+
   return (
-    <article className="flex gap-4 p-4 rounded-xl bg-white shadow-sm border border-gray-100 cursor-pointer transition-all duration-200 hover:-translate-y-1 hover:shadow-md">
-      <div className="w-24 h-24 rounded-xl bg-gray-100 overflow-hidden flex-shrink-0">
+    <article className="flex gap-4 px-4 py-5 hover:bg-gray-50 active:bg-gray-100 cursor-pointer transition-colors border-b border-gray-100 last:border-0">
+      <div className="w-[100px] h-[100px] rounded-2xl bg-gray-100 overflow-hidden flex-shrink-0">
         {product.image_url ? (
           <img
             src={product.image_url}
             alt={product.title}
-            className="w-full h-full object-cover"
+            className={`w-full h-full object-cover ${isSold ? 'opacity-50' : ''}`}
           />
         ) : (
-          <div className="w-full h-full flex items-center justify-center text-3xl">🍠</div>
+          <div className={`w-full h-full flex items-center justify-center text-4xl ${isSold ? 'opacity-40' : ''}`}>
+            🍠
+          </div>
         )}
       </div>
 
-      <div className="flex flex-col gap-1 min-w-0">
-        <div className="flex items-center gap-2">
-          {product.status !== '판매중' && (
-            <span className={`text-xs font-medium px-2 py-0.5 rounded-full ${STATUS_STYLE[product.status]}`}>
-              {product.status}
-            </span>
-          )}
-          <h2 className={`font-medium text-gray-900 truncate ${product.status === '판매완료' ? 'text-gray-400' : ''}`}>
-            {product.title}
-          </h2>
+      <div className="flex flex-col justify-between min-w-0 py-0.5 flex-1">
+        <div className="flex flex-col gap-1">
+          <div className="flex items-center gap-1.5 flex-wrap">
+            {badge && (
+              <span className={`text-xs font-medium px-1.5 py-0.5 rounded ${badge.className}`}>
+                {badge.label}
+              </span>
+            )}
+            <h2 className={`text-[15px] font-medium truncate ${isSold ? 'text-gray-400' : 'text-gray-900'}`}>
+              {product.title}
+            </h2>
+          </div>
+          <p className="text-xs text-gray-400">
+            {product.seller_name} · {timeAgo(product.created_at)}
+          </p>
         </div>
-        <p className="text-xs text-gray-400">{product.seller_name} · {timeAgo(product.created_at)}</p>
-        <p className="font-bold text-gray-900 mt-auto">
-          {product.status === '판매완료'
-            ? <span className="text-gray-400 font-normal">거래완료</span>
-            : `₩${product.price.toLocaleString()}`
-          }
+
+        <p className={`text-[15px] font-bold ${isSold ? 'text-gray-400' : 'text-gray-900'}`}>
+          {isSold ? '거래완료' : `₩${product.price.toLocaleString()}`}
         </p>
       </div>
     </article>

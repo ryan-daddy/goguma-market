@@ -11,16 +11,16 @@ export default async function Home() {
     .order('created_at', { ascending: false })
 
   return (
-    <>
+    <div className="min-h-screen bg-white">
       <Header />
-      <main className="max-w-2xl mx-auto w-full px-4 py-4">
+      <main className="max-w-2xl mx-auto">
         {!products || products.length === 0 ? (
-          <div className="flex flex-col items-center justify-center py-24 gap-3 text-gray-400">
+          <div className="flex flex-col items-center justify-center py-32 gap-3 text-gray-400">
             <span className="text-5xl">🍠</span>
-            <p className="text-sm">아직 등록된 상품이 없어요.</p>
+            <p className="text-sm">등록된 상품이 없습니다.</p>
           </div>
         ) : (
-          <ul className="flex flex-col gap-3">
+          <ul>
             {products.map((product: Product) => (
               <li key={product.id}>
                 <ProductCard product={product} />
@@ -29,6 +29,6 @@ export default async function Home() {
           </ul>
         )}
       </main>
-    </>
+    </div>
   )
 }
