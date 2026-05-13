@@ -48,7 +48,13 @@ export default async function ProductDetailPage({
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
             </svg>
           </Link>
-          <span className="font-semibold text-gray-900">상품 정보</span>
+          <span className="font-semibold text-gray-900 flex-1">상품 정보</span>
+          <Link
+            href={`/products/${product.id}/edit`}
+            className="text-sm text-orange-500 font-semibold hover:text-orange-600 transition-colors"
+          >
+            수정
+          </Link>
         </div>
       </header>
 

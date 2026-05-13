@@ -22,7 +22,7 @@ export default function Header() {
           href="/products/new"
           className="flex-shrink-0 bg-orange-500 hover:bg-orange-600 active:bg-orange-700 text-white text-sm font-semibold px-4 py-2 rounded-full transition-colors"
         >
-          글쓰기
+          상품등록
         </Link>
       </div>
     </header>
