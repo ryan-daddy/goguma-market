@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import { Product } from '@/types/product'
 
 const STATUS_BADGE: Record<Product['status'], { label: string; className: string } | null> = {
@@ -23,7 +24,7 @@ export default function ProductCard({ product }: { product: Product }) {
   const isSold = product.status === '판매완료'
 
   return (
-    <article className="flex gap-4 px-4 py-5 hover:bg-gray-50 active:bg-gray-100 cursor-pointer transition-colors border-b border-gray-100 last:border-0">
+    <Link href={`/products/${product.id}`} className="flex gap-4 px-4 py-5 hover:bg-gray-50 active:bg-gray-100 transition-colors border-b border-gray-100 last:border-0">
       <div className="w-[100px] h-[100px] rounded-2xl bg-gray-100 overflow-hidden flex-shrink-0">
         {product.image_url ? (
           <img
@@ -59,6 +60,6 @@ export default function ProductCard({ product }: { product: Product }) {
           {isSold ? '거래완료' : `₩${product.price.toLocaleString()}`}
         </p>
       </div>
-    </article>
+    </Link>
   )
 }
