@@ -3,12 +3,7 @@ import Link from 'next/link'
 import { createClient } from '@/lib/supabase/server'
 import { Product } from '@/types/product'
 import DeleteButton from '@/components/DeleteButton'
-
-const STATUS_STYLE: Record<Product['status'], string> = {
-  '판매중': 'bg-orange-100 text-orange-600',
-  '예약중': 'bg-yellow-100 text-yellow-700',
-  '판매완료': 'bg-gray-100 text-gray-500',
-}
+import StatusSelector from '@/components/StatusSelector'
 
 function timeAgo(dateStr: string) {
   const diff = Date.now() - new Date(dateStr).getTime()
@@ -81,9 +76,7 @@ export default async function ProductDetailPage({
         {/* 상품 정보 */}
         <div className="px-4 py-5 border-b border-gray-100">
           <div className="flex items-center gap-2 mb-2">
-            <span className={`text-xs font-medium px-2 py-1 rounded-full ${STATUS_STYLE[product.status]}`}>
-              {product.status}
-            </span>
+            <StatusSelector productId={product.id} initialStatus={product.status} />
           </div>
           <h1 className="text-xl font-bold text-gray-900 mb-1">{product.title}</h1>
           <p className="text-sm text-gray-400">{product.seller_name} · {timeAgo(product.created_at)}</p>
